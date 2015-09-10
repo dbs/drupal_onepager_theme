@@ -1,0 +1,103 @@
+<?php
+/**
+* @file
+* Library search block code
+*/
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function library_search_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#library_search":
+      return '<p>' . t("Displays a library search form") . '</p>';
+      break;
+  }
+}
+
+function library_search_block_info() {
+  // This example comes from node.module.
+  $blocks['library_search'] = array(
+    'info' => t('Library search'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function library_search_menu() {
+  $items = array();
+
+  $items['admin/config/content/library_search'] = array(
+    'title' => 'Library search',
+    'description' => 'Configuration for Library Search module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('library_search_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback: Library Search settings
+ *
+ * @see library_search_menu()
+ */
+function library_search_form($form, &$form_state) {
+  $form['library_search_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library search URL'),
+    '#default_value' => variable_get('library_search_url', 'https://google.com/search'),
+    '#size' => 128,
+    '#maxlength' => 256,
+    '#description' => t('The URL to which searches should be submitted'),
+    '#required' => TRUE,
+  );
+  $form['library_search_param'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library search parameter'),
+    '#default_value' => variable_get('library_search_param', 'q'),
+    '#size' => 8,
+    '#maxlength' => 32,
+    '#description' => t('The GET parameter to which searches will be appended'),
+    '#required' => TRUE,
+  );
+  $form['library_search_catalogue'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library catalogue'),
+    '#default_value' => variable_get('library_search_catalogue', 'https//worldcat.org'),
+    '#size' => 128,
+    '#maxlength' => 256,
+    '#description' => t('The URL for the library catalogue'),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+function library_search_block_view($delta = '') {
+  $search_url = variable_get('library_search_url', 'https://google.com/search');
+  $search_param = variable_get('library_search_param', 'q');
+  $search_catalogue = variable_get('library_search_cataloge', 'https://worldcat.org');
+
+  $block['title'] = t('');
+  $block['content'] = array(
+    '#markup' => '<form id="search" action="'. $search_url .'"><fieldset><legend>Search Catalog</legend>
+		<label for="searchText"><a href="' . $search_catalogue . '">Catalog</a></label><input name="' . $search_param . '" placeholder="Search books and more" type="search">
+		<input type="submit" value="Search">
+	</fieldset></form>'
+  );
+  return $block;
+}
+

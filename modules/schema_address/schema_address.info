@@ -1,0 +1,3 @@
+name = Schema.org Addressfield
+description = Annotates addressfields using the schema.org vocabularies. Based on schemaorg_contrib's addressfield module, but removes the dependency on RDF and schemaorg.
+core = 7.x

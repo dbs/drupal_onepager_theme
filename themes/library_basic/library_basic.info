@@ -1,0 +1,8 @@
+name = Basic Library
+description = This is a theme for libraries based on the Library One-Pager.
+core = 7.x
+
+regions[header] = Header
+regions[search] = Search
+regions[content] = Content
+regions[footer] = Footer

@@ -1,0 +1,6 @@
+name = Library search block
+description = Add a library search block
+core = 7.x
+stylesheets[all][] = library_search.css
+
+configure = admin/config/content/library_search

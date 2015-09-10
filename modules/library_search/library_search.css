@@ -1,0 +1,6 @@
+#search label { display: inline }
+@media print {
+    #library_search {
+        display: none;
+    }
+}
